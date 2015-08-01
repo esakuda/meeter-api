@@ -1,4 +1,6 @@
 Meetar::Application.routes.draw do
+  get 'users/login' => 'users#login'
+  get 'users/logout' => 'users#logout'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
@@ -46,6 +48,7 @@ Meetar::Application.routes.draw do
   #   end
   #   resources :posts, concerns: :toggleable
   #   resources :photos, concerns: :toggleable
+
 
   # Example resource route within a namespace:
   #   namespace :admin do
