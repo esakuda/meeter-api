@@ -11,7 +11,6 @@ class ProximityPushContext
 
   def send
     req = add_request_body(new_push_request)
-    byebug
     req.body = notification_body.to_json
     http = Net::HTTP.new(uri.host, uri.port)
     http.use_ssl = true
@@ -45,7 +44,7 @@ class ProximityPushContext
     notification_body[:data][:aps] = aps
     #notification_body[:where][:deviceType] = "ios"
     notification_body[:where][:user_id] = 1
-    notification_body[:data][:data][:near_friends] = near_friends
+    notification_body[:data][:data][:near_friends] = User.first
     req
   end
 end
