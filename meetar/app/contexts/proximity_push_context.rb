@@ -1,10 +1,9 @@
 class ProximityPushContext
   attr_reader :near_friends, :uri, :notification_body
 
-  def initialize(near_friends, user_id)
+  def initialize(near_friends)
     @near_friends = near_friends
     @uri = URI.parse(Rails.configuration.parse_url)
-    @user_id = user_id
     @notification_body =  {
       where: {}, data: { action: 'com.meeter.Together.PUSH_RECEIVED',  data: {} }
     }
@@ -12,6 +11,7 @@ class ProximityPushContext
 
   def send
     req = add_request_body(new_push_request)
+    byebug
     req.body = notification_body.to_json
     http = Net::HTTP.new(uri.host, uri.port)
     http.use_ssl = true
@@ -44,8 +44,8 @@ class ProximityPushContext
   def add_request_body(req)
     notification_body[:data][:aps] = aps
     #notification_body[:where][:deviceType] = "ios"
-    notification_body[:where][:user_id] = @user_id
-    notification_body[:data][:data][:near_friends] = User.first
+    notification_body[:where][:user_id] = 1
+    notification_body[:data][:data][:near_friends] = near_friends
     req
   end
 end

@@ -5,17 +5,18 @@ class UsersController < ApplicationController
   def login
   	render_invalid_parameters and return if params[:token].blank? || params[:name].blank? 
   	@user = User.find_by(name: params[:name])
+  	byebug
   	if @user.nil?
-  		@user = User.create(name: params[:name], token: params[:token], profile_avatar: params[:profile_avatar])
+  		byebug
+  		@user = User.create(name: params[:name], token: params[:token])
   		get_friends(@user)
   	end
 		if @user.token.blank?
 			@user.update(token: params[:token])
-			render json: { id: @user.id}, status: 200  and return
-			#render_ok and return
+			render_ok and return
 		end
-		#render json: { id: @user.id, status: 200 } and return if @user.token.eql?(params[:token])
-		render json: { id: @user.id}, status: 200 and return
+		render_ok and return if @user.token.eql?(params[:token])
+		render_other_problems and return
 
   end
 
@@ -33,15 +34,20 @@ class UsersController < ApplicationController
   end  
 
   def update_position
+  	byebug
    	render_invalid_parameters and return unless validate_parameters?
    	@user = User.find_by(token: params[:token])
+    byebug
    	if !@user.blank?
+			byebug
 			@user.update(latitude: params[:latitude],longitude: params[:longitude])
 			friends = filter_friends(@user, params[:latitude_min], params[:latitude_max], params[:longitude_min], params[:longitude_max])
-			ProximityPushContext.new(friends, @user.id).send if friends.count>0
+			byebug
+			ProximityPushContext.new(friends).send if friends.count>0
 			#render json: friends and return
 			render_ok and return 
 		else
+			byebug
 			render_other_problems and return
 		end
 
