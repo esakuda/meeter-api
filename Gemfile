@@ -29,7 +29,9 @@ gem 'jbuilder', '~> 1.2'
 
 gem 'byebug'
 
-#gem "koala", "~> 1.10.0rc"
+gem "koala", "~> 1.10.0rc"
+
+gem 'app_configuration'
 
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
