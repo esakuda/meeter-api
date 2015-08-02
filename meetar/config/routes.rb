@@ -2,6 +2,8 @@ Meetar::Application.routes.draw do
   post 'users/login' => 'users#login'
   post 'users/logout' => 'users#logout'
   post 'users/update_position' => 'users#update_position'
+  #post 'users/get_friends' => 'users#get_friends'
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
